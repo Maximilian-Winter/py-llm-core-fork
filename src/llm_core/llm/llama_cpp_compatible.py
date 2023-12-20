@@ -29,6 +29,10 @@ class LLaMACPPModel(LLMBase):
     verbose: bool = False
     llama_cpp_kwargs: dict = None
 
+    def __init__(self, model, llama_cpp_kwargs):
+        self.model = model
+        self.llama_cpp_kwargs = llama_cpp_kwargs
+
     def __enter__(self):
         self.load_model()
         return self
@@ -41,17 +45,10 @@ class LLaMACPPModel(LLMBase):
 
     def load_model(self):
         if self.llama_cpp_kwargs is None:
-            self.llama_cpp_kwargs = {
-                "n_ctx": self.ctx_size,
-                "verbose": self.verbose,
-            }
+            self.llama_cpp_kwargs = {"n_ctx": self.ctx_size, "verbose": self.verbose, "n_gpu_layers": 45,
+                                     "n_threads": 8}
 
-            if platform.system() == "Darwin" and platform.machine() == "arm64":
-                # Offload everything onto the GPU on MacOS
-                self.llama_cpp_kwargs["n_gpu_layers"] = 100
-                self.llama_cpp_kwargs["n_threads"] = 1
-
-        model_path = os.path.join(MODELS_CACHE_DIR, self.name)
+        model_path = self.model
         self.model = llama_cpp.Llama(model_path, **self.llama_cpp_kwargs)
 
     def ask(

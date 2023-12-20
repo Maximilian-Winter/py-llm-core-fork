@@ -26,7 +26,7 @@ class LLMBase:
 
         complete_prompt = "\n".join(complete_prompt)
 
-        required_ctx_size = len(codecs.encode(complete_prompt, self.name))
+        required_ctx_size = len(codecs.encode(complete_prompt, "utf-8"))
         if required_ctx_size > self.ctx_size:
             raise OverflowError(
                 f"Prompt too large {required_ctx_size} for this model {self.ctx_size}"

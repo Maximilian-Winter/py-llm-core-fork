@@ -12,7 +12,7 @@ class BaseAssistant(BaseParser):
         system_prompt = self.system_prompt.format(**kwargs)
         prompt = self.prompt.format(**kwargs)
 
-        self.model_wrapper.system_prompt = system_prompt
+        self.model_wrapper.system_prompt_template = system_prompt
 
         completion = self.model_wrapper.ask(
             prompt, schema=self.target_json_schema, **self.completion_kwargs

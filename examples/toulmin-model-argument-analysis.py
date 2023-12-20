@@ -5,130 +5,338 @@ from llm_core.assistants import LLaMACPPAssistant
 
 
 sample_paper = """
-Varying Definitions of Online Communication and
-Their Effects on Relationship Research
-Elizabeth L. Angeli
-State University
-
-Abstract
-
-This paper explores four published articles that report on results from research conducted
-on online (Internet) and offline (non-Internet) relationships and their relationship to
-computer-mediated communication (CMC). The articles, however, vary in their
-definitions and uses of CMC. Butler and Kraut (2002) suggest that face-to-face (FtF)
-interactions are more effective than CMC, defined and used as “email,” in creating
-feelings of closeness or intimacy. Other articles define CMC differently and, therefore,
-offer different results. This paper examines Cummings, Butler, and Kraut’s (2002)
-research in relation to three other research articles to suggest that all forms of CMC
-should be studied in order to fully understand how CMC influences online and offline
-relationships.
+The following is a development plan for a system called MemGPT:
 
 
-Numerous studies have been conducted on various facets of Internet
-relationships, focusing on the levels of intimacy, closeness, different communication
-modalities, and the frequency of use of computer-mediated communication (CMC).
-However, contradictory results are suggested within this research mostly because only
-certain aspects of CMC are investigated, for example, email only. Cummings, Butler,
-and Kraut (2002) suggest that FtF interactions are more effective than CMC (read:
-email) in creating feelings of closeness or intimacy, while other studies suggest the
-opposite. In order to understand how both online (Internet) and offline (non-Internet)
-relationships areaffected by CMC, all forms of CMC should be studied. This paper
-examines Cummingset al.’s research against other CMC research to propose that
-additional research beconducted to better understand how online communication effects
-relationships.
+MemGPT introduces a novel approach to memory management in GPT, addressing the limitations of fixed context windows. It draws inspiration from traditional operating systems' hierarchical memory systems. Here's an overview:
+
+1. **Main Context and External Context**: MemGPT distinguishes between two primary memory types: the main context (akin to RAM in operating systems) and external context (similar to disk storage). The main context represents the standard fixed-context window of modern LLMs, where all in-context data is processed. The external context holds out-of-context data, which can be brought into the main context through specific function calls.
+
+2. **Self-Directed Editing and Retrieval**: The system autonomously updates and searches its memory, deciding when to move items between contexts. This process allows the LLM to adapt its main context to reflect evolving objectives and responsibilities. MemGPT implements this through explicit instructions guiding interactions with memory systems.
+
+3. **Control Flow and Function Chaining**: Events such as user messages or system alerts trigger LLM inference in MemGPT. It processes these events and converts them into plain text messages, appending them to the main context for the LLM processor. Function chaining allows sequential execution of multiple functions before returning control to the user.
+
+MemGPT's design enables it to handle unbounded context using LLMs with finite context windows, significantly enhancing their capability in tasks like document analysis and extended conversations.
 
 
-Literature Review
+###  Development Plan for MemGPT-Like System (Python Focus)
 
-In Cummings et al.’s (2002) summary article reviewing three empirical studies on
-online social relationships, it was found that CMC, especially email, was less effective
-than FtF contact in creating and maintaining close social relationships. Two of the three
-reviewed studies focusing on communication in non-Internet and Internet relationships
-mediated by FtF, phone, or email modalities found that the frequency of each modality’s
-use was significantly linked to the strength of the particular relationship (Cummings et
-al., 2002). The strength of the relationship was predicted best by FtF and phone
-communication, as participants rated email as an inferior means of maintaining personal
-relationships as compared to FtF and phone contacts (Cummings et al., 2002).
+#### 1. Pythonic Class Design
 
-Cummings et al. (2002) reviewed an additional study conducted in 1999 by the
-HomeNet project. In this project, Kraut, Mukhopadhyay, Szczypula, Kiesler, and
-Scherlis(1999) compared the value of using CMC and non-CMC to maintain
-relationships withpartners. They found that participants corresponded less frequently
-with their Internetpartner (5.2 times per month) than with their non-Internet partner (7.2
-times per month)(as cited in Cummings et al., 2002). This difference does not seem
-significant, as it isonly two times less per month. However, in additional self-report
-surveys, participantsresponded feeling more distant, or less intimate, towards their
-Internet partner than theirnon-Internet partner. This finding may be attributed to
-participants’ beliefs that email isan inferior mode of personal relationship
-communication.
+- **Class: MainContext**
+  - **Methods**:
+    - Use Python's `list` or `deque` for `contextData` to maintain an ordered collection with efficient add/remove operations.
+    - Consider using `@property` decorators for controlled access and updates to `contextSize` and `relevanceCriteria`.
 
-Intimacy is necessary in the creation and maintenance of relationships, as it is
-defined as the sharing of a person’s innermost being with another person, i.e.,
-selfdisclosure(Hu, Wood, Smith, & Westbrook, 2004). Relationships are facilitated by
-thereciprocal self-disclosing between partners, regardless of non-CMC or CMC.
-Cummingset al.’s (2002) reviewed results contradict other studies that research the
-connectionbetween intimacy and relationships through CMC.
+- **Class: ExternalContext**
+  - **Methods**:
+    - Utilize Python's database connectivity (e.g., SQLite or SQLAlchemy) for `externalData` to manage large volumes of information.
+    - Implement `retrievalAlgorithms` as a mix of custom functions and Python's built-in search and sort capabilities.
 
-Hu et al. (2004) studied the relationship between the frequency of Instant
-Messenger (IM) use and the degree of perceived intimacy among friends. The use of IM
-instead of email as a CMC modality was studied because IM supports a nonprofessional
-environment favoring intimate exchanges (Hu et al., 2004). Their results suggest that apositive relationship exists between the frequency of IM use and intimacy,
-demonstrating that participants feel closer to their Internet partner as time progresses through this CMC modality.
+- **Class: ContextManager**
+  - **Methods**:
+    - Implement `transferPolicies` using Python's functional programming features like `lambda` and higher-order functions for dynamic decision-making.
 
-Similarly, Underwood and Findlay (2004) studied the effect of Internet relationships on primary, specifically non-Internet relationships and the perceived intimacy of both. In this study, self-disclosure, referred to "whether [participants] shared secrets, discussed personal problems, or had discussed sexual preferences" (p. 131). Participants reported significantly higher self-disclosure in their Internet relationship than in their primary relationship. In contrast, the participants’ primary relationships were reported as highly self-disclosed in the past, but the current level of disclosure was perceived to be lower (Underwood & Findlay, 2004). This result suggests participants turned to the Internet in order to fulfill the need for intimacy in their lives.
+- **Class: RetrievalSystem**
+  - **Methods**:
+    - Leverage Python's rich library ecosystem for `searchEngine`, possibly integrating Elasticsearch for advanced search capabilities.
+    - Use a dictionary or `collections.OrderedDict` for `retrievalCache` to optimize lookups.
 
-In further support of this finding, Tidwell and Walther (2002) hypothesized CMC participants employ deeper self-disclosures than FtF participants in order to overcome the limitations of CMC, e.g., the reliance on nonverbal cues. It was found that CMC partners engaged in more frequent intimate questions and disclosures than FtF partners in order to overcome the barriers of CMC. In their study, Tidwell and Walther (2002) measured the perception of a relationship’s intimacy by the partner of each participant in both the CMC and FtF conditions. The researchers found that the participants’ partners stated their CMC partner was more effective in employing more intimate exchanges than their FtF partner, and both participants and their partners rated their CMC relationship as more intimate than their FtF relationship.
+- **Class: MemoryPage**
+  - **Methods**:
+    - Use a Python `class` or `namedtuple` for `pageContent` to structure page data.
+    - Implement `pageSize` logic using Python's memory management and data sizing techniques.
 
+#### 2. Interface Design with Python
 
-Discussion
+- **Interface: IMemoryManagement**
+  - Use Python's Abstract Base Classes (ABC) from `abc` module to define the interface.
+  - Employ Python's duck typing philosophy for flexible method implementations.
 
+- **Interface: IContextUpdater**
+  - Again, use Python's ABC for consistency.
+  - Provide clear documentation on method expectations to guide implementation in Pythonic style.
 
-Cummings et al. (2002) argued that the evidence from their research conflicted with other data examining the effectiveness of online social relationships. This statement
-is supported by the aforementioned discussion of other research. There may be a few possible theoretical explanations for these discrepancies.
+#### 3. Data Flow and Control
 
+- Emphasize clear and readable code following Python's Zen (PEP 20) for data flow implementation.
+- Use Python's exception handling to manage flow control and error states.
 
-Limitations of These Studies
+#### 4. Additional Pythonic Considerations
 
-
-The discrepancies identified may result from a number of limitations found in the materials reviewed by Cummings et al. (2002). These can result from technological constraints, demographic factors, or issues of modality. Each of these limitations will be examined in further detail below.
-
-
-Technological limitations
-
-First, one reviewed study by Cummings et al. (2002) examined only email correspondence for their CMC modality. Therefore, the study is limited to only one mode of communication among other alternatives, e.g., IM as studied by Hu et al. (2004). Because of its many personalized features, IM provides more personal CMC. For example, it is in real time without delay, voice-chat and video features are available for many IM programs, and text boxes can be personalized with the user’s picture, favorite colors and text, and a wide variety of emoticons, e.g., :). These options allow for both an increase in self-expression and the ability to overcompensate for the barriers of CMC through customizable features, as stated in Tidwell and Walther (2002). Self-disclosure and intimacy may result from IM’s individualized features, which are not as personalized in email correspondence.
+- **Performance Optimization**: Utilize Python's profiling tools (like `cProfile`) to identify bottlenecks.
+- **Scalability**: Leverage Python's multi-threading and multi-processing capabilities for handling large data and requests.
+- **Learning and Adaptation**: Integrate machine learning libraries (like scikit-learn) for feedback mechanisms.
 
 
 
-Demographic limitations
-
-In addition to the limitations of email, Cummings et al. (2002) reviewed studies that focused on international bank employees and college students (see Appendix B for demographic information). It is possible the participants’ CMC through email was used primarily for business, professional, and school matters and not for relationship creation or maintenance. In this case, personal self-disclosure and intimacy levels are expected to be lower for non-relationship interactions, as this communication is primarily between boss and employee or student and professor. Intimacy is not required, or even desired, for these professional relationships.
 
 
-Modality limitations.
+###  Implementation Plan for `MainContext` Class (Python Focus)
+
+#### Purpose
+`MainContext` manages the immediate, active memory space, handling dynamic data addition, removal, and context updating in a Pythonic way.
+
+#### Pythonic Properties and Methods
+
+1. **Properties**:
+   - `context_data`: A Python `list` or `deque` for efficient data manipulation.
+   - `context_size`: An integer, managed via a property decorator to encapsulate context size logic.
+
+2. **Methods**:
+
+   - `add_information(info)`: Adds new information to the main context.
+     - Parameters:
+       - `info`: The information to be added (Python object or structured data).
+     - Implementation:
+       - Append `info` to `context_data`.
+       - If `context_data` exceeds `context_size`, trigger `update_context()`.
+       - Maintain order based on relevance criteria.
+
+   - `remove_information(info_id)`: Removes specific information from the main context.
+     - Parameters:
+       - `info_id`: Identifier for the information to remove.
+     - Implementation:
+       - Efficiently locate and remove the item from `context_data`.
+       - Optional: Update context after removal.
+
+   - `update_context()`: Updates the context based on relevance and current tasks.
+     - Implementation:
+       - Assess each item's relevance in `context_data` using defined criteria.
+       - Move less relevant items to `ExternalContext` via `ContextManager`.
+
+#### Pythonic Considerations
+
+- **Efficiency**: Use Python list comprehensions for concise and efficient data manipulation.
+- **Readability**: Follow PEP 8 naming conventions and Pythonic idioms for readability and maintainability.
+- **Algorithmic Approach**: Implement relevance assessment using a combination of frequency analysis and topical relevance algorithms, leveraging Python's rich text processing capabilities.
 
 
-Instead of professional correspondence, however, Cummings et al.’s (2002) review of the HomeNet project prioritized already-established relationships and CMC’s effect on relationship maintenance. The HomeNet researchers’ sole dependence on email communication as CMC may have contributed to the lower levels of intimacy and closeness among Internet relationships as compared to non-Internet relationships (as cited in Cummings et al., 2002). The barriers of non- personal communication in email could be a factor in this project, and this could lead to less intimacy among these Internet partners. If alternate modalities of CMC were studied in both already-established and professional relationships, perhaps these results would have resembled those of the previously mentioned research.
 
 
-Conclusions and Future Study
+###  Implementation Plan for `ExternalContext` Class (Python Focus)
+
+#### Purpose
+`ExternalContext` handles the storage and retrieval of information not actively used in the main context, employing Pythonic data structures and algorithms for efficient management.
+
+#### Pythonic Properties and Methods
+
+1. **Properties**:
+   - `external_data`: A Python data structure or database connection to store external context information (e.g., SQLite or a Python ORM like SQLAlchemy for relational data).
+   - `page_indexing`: A Python dictionary or a more sophisticated indexing system (like Elasticsearch) for efficient data categorization and retrieval.
+   - `retrieval_algorithms`: Custom Python functions or built-in capabilities for information retrieval.
+
+2. **Methods**:
+
+   - `store_information(info)`: Stores information for long-term use.
+     - Parameters:
+       - `info`: The information to be stored.
+     - Implementation:
+       - Insert `info` into `external_data`.
+       - Update `page_indexing` to efficiently categorize and index the new data.
+       - Handle data integrity and duplication checks.
+
+   - `retrieve_information(criteria)`: Retrieves information based on specific criteria.
+     - Parameters:
+       - `criteria`: Criteria for information retrieval (e.g., keywords, topics).
+     - Implementation:
+       - Use `retrieval_algorithms` to search in `external_data`.
+       - Implement efficient sorting and prioritization of results.
+       - Return the most relevant information for use in the main context.
+
+#### Pythonic Considerations
+
+- **Data Management**: Utilize Python's database connectivity for scalable data storage. Consider using ORMs for abstraction and ease of use.
+- **Algorithmic Efficiency**: For `retrieval_algorithms`, leverage Python libraries like NumPy or Pandas for efficient data processing, and consider natural language processing libraries for advanced search capabilities.
+- **Scalability and Performance**: Implement caching strategies (using Python's `functools.lru_cache` or similar) to improve retrieval performance, especially for frequently accessed data.
 
 
-In order to gain a complete understanding of CMC’s true effect on both online and offline relationships, it is necessary to conduct a study that examines all aspects of
-CMC. This includes, but is not limited to, email, IM, voice-chat, video-chat, online journals and diaries, online social groups with message boards, and chat rooms. The effects on relationships of each modality may be different, and this is demonstrated by
-the discrepancies in intimacy between email and IM correspondence. As each mode of communication becomes more prevalent in individuals’ lives, it is important to examine the impact of all modes of CMC on online and offline relationship formation, maintenance, and even termination.
 
 
-References
-Cummings, J. N., Butler, B., & Kraut, R. (2002). The quality of online social
-relationships. Communications of the ACM, 45(7), 103-108.
-Hu, Y., Wood, J. F., Smith, V., & Westbrook, N. (2004). Friendships through IM:
-Examining the relationship between instant messaging and intimacy. Journal of
-Computer-Mediated Communication, 10(1), 38-48.
-Tidwell, L. C., & Walther, J. B. (2002). Computer-mediated communication effects on
-disclosure, impressions, and interpersonal evaluations: Getting to know one
-another a bit at a time. Human Communication Research, 28(3), 317-348.
-Underwood, H., & Findlay, B. (2004). Internet relationships and their impact on primary
-relationships. Behaviour Change, 21(2), 127-140.
+###  Implementation Plan for `ContextManager` Class (Python Focus)
+
+#### Purpose
+`ContextManager` acts as the mediator between the `MainContext` and `ExternalContext`, overseeing the transfer of information based on system requirements and context relevance.
+
+#### Pythonic Properties and Methods
+
+1. **Properties**:
+   - `main_context`: A reference to an instance of the `MainContext` class.
+   - `external_context`: A reference to an instance of the `ExternalContext` class.
+   - `transfer_policies`: A set of rules or algorithms, possibly implemented as Python functions or using a strategy pattern for dynamic decision-making.
+
+2. **Methods**:
+
+   - `transfer_to_main_context(info_id)`: Moves information from the external to the main context.
+     - Parameters:
+       - `info_id`: Identifier of the information to transfer.
+     - Implementation:
+       - Retrieve the information from `external_context`.
+       - If `main_context` is at capacity, trigger its `update_context()` method.
+       - Add the retrieved information to `main_context`.
+
+   - `transfer_to_external_context(info_id)`: Moves information from the main to the external context.
+     - Parameters:
+       - `info_id`: Identifier of the information to transfer.
+     - Implementation:
+       - Retrieve the information from `main_context`.
+       - Store it in `external_context`.
+       - Update `transfer_policies` as needed for future optimizations.
+
+#### Pythonic Considerations
+
+- **Dynamic Policy Implementation**: Use Python's dynamic and functional features (like lambda functions and decorators) to implement `transfer_policies` that can adapt to different scenarios.
+- **Efficient Data Handling**: Employ Python's built-in data structures and algorithms for efficient data transfer and management between contexts.
+- **Error Handling**: Implement robust error handling and logging (using Python's `logging` module) to ensure system stability and ease of debugging.
+
+
+
+
+
+###  Implementation Plan for `RetrievalSystem` Class (Python Focus)
+
+#### Purpose
+`RetrievalSystem` enables efficient searching and retrieval of information from `ExternalContext`, using Pythonic data structures and algorithms to handle these operations effectively.
+
+#### Pythonic Properties and Methods
+
+1. **Properties**:
+   - `external_context`: A reference to an instance of the `ExternalContext` class.
+   - `search_engine`: A sophisticated search algorithm or library, potentially integrating Python libraries like Elasticsearch for advanced capabilities.
+   - `retrieval_cache`: A cache system, implemented using Python dictionaries or `collections.OrderedDict` for fast access to recently retrieved information.
+
+2. **Methods**:
+
+   - `search_information(criteria)`: Conducts a search in the external context.
+     - Parameters:
+       - `criteria`: The criteria for the search (e.g., keywords, tags).
+     - Implementation:
+       - Utilize `search_engine` to perform the search within `external_context`.
+       - Sort and rank the results based on relevance, leveraging Python's sorting capabilities.
+       - Update `retrieval_cache` with the results for quicker future access.
+
+   - `retrieve_information(info_id)`: Retrieves specific information based on its identifier.
+     - Parameters:
+       - `info_id`: The identifier of the information to retrieve.
+     - Implementation:
+       - First, check `retrieval_cache` for the information.
+       - If not in cache, access `external_context` to retrieve the data.
+       - Update `retrieval_cache` as needed.
+
+#### Pythonic Considerations
+
+- **Algorithmic Efficiency**: Leverage Python's powerful libraries for efficient search and retrieval operations.
+- **Cache Optimization**: Use Python's `functools.lru_cache` or a similar mechanism for efficient caching strategies.
+- **Robust Error Handling**: Implement comprehensive error handling to manage exceptions and maintain system stability.
+
+
+
+###  Implementation Plan for `MemoryPage` Class (Python Focus)
+
+#### Purpose
+`MemoryPage` handles segments of memory within the `ExternalContext`, organizing information in a structured and efficient manner, using Pythonic data structures and algorithms.
+
+#### Pythonic Properties and Methods
+
+1. **Properties**:
+   - `page_id`: A unique identifier for the memory page, possibly a UUID or a simple integer ID.
+   - `page_content`: The actual data stored in the memory page, implemented as a Python list or dictionary, depending on the nature of the data.
+   - `page_size`: The maximum size or capacity of the page, defined as an integer.
+   - `last_accessed`: A timestamp (using Python's `datetime` module) to track when the page was last accessed.
+
+2. **Methods**:
+
+   - `store_info(info)`: Stores information in the memory page.
+     - Parameters:
+       - `info`: The information to be stored.
+     - Implementation:
+       - Append or add `info` to `page_content`, ensuring it doesn't exceed `page_size`.
+       - Update `last_accessed` upon each addition of information.
+
+   - `retrieve_info()`: Retrieves all information stored in the memory page.
+     - Implementation:
+       - Return the contents of `page_content`.
+       - Update `last_accessed` to the current time.
+
+#### Pythonic Considerations
+
+- **Data Structuring**: Utilize Python's native data structures for storing and managing `page_content`, ensuring efficient access and modification.
+- **Efficient Memory Usage**: Implement logic to optimize the use of `page_size`, potentially using Python's memory management tools to track and manage the size of `page_content`.
+- **Timestamp Management**: Use Python's `datetime` module for accurate and efficient handling of `last_accessed`.
+
+###  Implementation Plan for `IMemoryManagement` Interface (Python Focus)
+
+#### Purpose
+`IMemoryManagement` serves as a foundational interface for standardizing memory management operations within the system, ensuring consistency and flexibility in handling memory-related tasks.
+
+#### Pythonic Interface Definition
+
+1. **Using Abstract Base Classes (ABC)**:
+   - Leverage Python’s `abc` module to define `IMemoryManagement` as an abstract base class, ensuring that any class implementing this interface provides concrete implementations of its methods.
+
+2. **Method Definitions**:
+
+   - `add_to_context(info)`: Adds information to a context (main or external).
+     - Parameters:
+       - `info`: The information to be added (Python object or structured data).
+     - Implementation Requirements:
+       - Define an abstract method that must be overridden by concrete classes, ensuring they provide a tailored addition logic based on the context's nature.
+
+   - `remove_from_context(info_id)`: Removes information from a context based on its identifier.
+     - Parameters:
+       - `info_id`: Identifier of the information to be removed.
+     - Implementation Requirements:
+       - Specify an abstract method that enforces the implementation of efficient removal logic in concrete classes.
+
+   - `search_context(criteria)`: Searches for information within a context based on given criteria.
+     - Parameters:
+       - `criteria`: Criteria for searching information.
+     - Implementation Requirements:
+       - Design an abstract method that must be implemented to provide context-specific search functionality, using Python's rich searching and filtering capabilities.
+
+#### Pythonic Considerations
+
+- **Flexibility and Robustness**: Ensure that the interface is flexible enough to accommodate various types of context-specific memory management strategies, while also enforcing a robust and consistent approach across different implementations.
+- **Pythonic Naming and Style**: Adhere to Python’s naming conventions and style guide (PEP 8) for method names and parameters, enhancing readability and maintainability.
+- **Documentation and Type Hints**: Provide clear documentation for each method, including Python type hints, to guide developers in implementing the interface correctly and efficiently.
+
+
+### Implementation Plan for `IMemoryManagement` Interface
+
+#### Purpose
+`IMemoryManagement` serves as a contract for memory management operations, dictating the essential methods that must be present in any class that manages parts of the system's memory.
+
+#### Method Definitions
+
+1. **add_to_context(info)**
+   - **Purpose**: Adds information to a context (main or external).
+   - **Parameters**:
+     - `info`: The information to be added.
+   - **Implementation Requirements**:
+     - Ensure that the implementation accounts for the context's size and relevance criteria.
+     - Include checks and balances to maintain the integrity and order of the stored information.
+
+2. **remove_from_context(info_id)**
+   - **Purpose**: Removes information from a context based on its identifier.
+   - **Parameters**:
+     - `info_id`: The identifier of the information to be removed.
+   - **Implementation Requirements**:
+     - Implement the method to locate and remove the specified information efficiently.
+     - Consider updates or adjustments needed to the context post-removal.
+
+3. **search_context(criteria)**
+   - **Purpose**: Searches for information within a context based on given criteria.
+   - **Parameters**:
+     - `criteria`: The criteria used to search for information.
+   - **Implementation Requirements**:
+     - Define how the search is conducted, considering factors like relevance, recency, and content type.
+     - Ensure that the search method is optimized for speed and accuracy.
+
+#### Additional Considerations
+- **Flexibility**: Allow for different implementations of these methods in `MainContext` and `ExternalContext`, reflecting their distinct roles.
+- **Consistency**: Ensure that despite different implementations, the interface provides a consistent set of operations that can be expected from any memory-managing component of the system.
+- **Integration**: Design the interface to be easily integrated with other components of the system, particularly those that interact with memory management operations.
+
 """
 
 

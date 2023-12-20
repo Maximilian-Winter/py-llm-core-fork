@@ -79,7 +79,7 @@ class LLaMACPPParser(BaseParser):
         )
 
         self.model_wrapper = LLaMACPPModel(
-            name=model, llama_cpp_kwargs=llama_cpp_kwargs
+            model=model, llama_cpp_kwargs=llama_cpp_kwargs
         )
         self.ctx_size = self.model_wrapper.ctx_size
         self.model_name = self.model_wrapper.name

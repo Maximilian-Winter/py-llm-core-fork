@@ -6,8 +6,8 @@ from setuptools import setup, find_packages
 here = Path(__file__).parent
 packages = find_packages("src")
 main_package = packages[0]
-long_description = (here / "README.md").read_text()
-requirements = (here / "requirements.txt").read_text().splitlines()
+long_description = (here / "README.md").read_text(encoding="utf-8")
+# requirements = (here / "requirements.txt").read_text().splitlines()
 
 
 setup(
@@ -22,6 +22,5 @@ setup(
     url="https://github.com/paschembri/py-llm-core",
     packages=packages,
     package_dir={"": "src"},
-    include_package_data=True,
-    install_requires=requirements,
+    include_package_data=True
 )

@@ -120,6 +120,8 @@ class SchemaConverter:
         return key
 
     def visit(self, schema, name):
+        if schema is None:
+            print(f"Schema is None for name: {name}")
         schema_type = schema.get("type")
         rule_name = name or "root"
 
